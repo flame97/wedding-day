@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Duy Tùng & Nhật Vịnh - Official Wedding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'genz-pink': '#FF6B6B',
+                        'genz-purple': '#845EC2',
+                        'genz-yellow': '#F9F871',
+                        'genz-blue': '#00C9A7',
+                    },
+                    fontFamily: {
+                        'fun': ['Pacifico', 'cursive'],
+                        'script': ['Dancing Script', 'cursive'],
+                        'bold': ['Montserrat', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '375px', // Màn hình điện thoại nhỏ
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Modern Vibes */
+        body {
+            background: linear-gradient(-45deg, #FF9A9E, #FECFEF, #E0C3FC, #8EC5FC);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100dvh; 
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            overscroll-behavior: none; 
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #FF6B6B, #845EC2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Slide System */
+        .slide-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.95) translateY(20px);
+            overflow-y: auto; 
+            padding-bottom: 140px; 
+            padding-top: 60px; 
+            -webkit-overflow-scrolling: touch; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .slide-container.center-content {
+            justify-content: center;
+        }
+
+        .slide-container.active {
+            opacity: 1; visibility: visible;
+            transform: scale(1) translateY(0);
+            z-index: 10;
+        }
+
+        .slide-container::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* Floating Sticker Animation */
+        @keyframes float-emoji {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        .float-emoji { animation: float-emoji 3s ease-in-out infinite; }
+
+        .notification-pop {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.5) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        /* Lightbox */
+        #lightbox { transition: opacity 0.3s ease; }
+        #lightbox.open { opacity: 1; pointer-events: auto; }
+        #lightbox:not(.open) { opacity: 0; pointer-events: none; }
+        
+        /* Dashed Line for Roadmap */
+        .roadmap-line {
+            background-image: linear-gradient(to bottom, #845EC2 50%, transparent 50%);
+            background-size: 2px 20px;
+            background-repeat: repeat-y;
+        }
+
+        /* Tùy chỉnh thanh cuộn */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #FF6B6B; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-gray-800 relative selection:bg-genz-pink selection:text-white">
+
+    <div class="fixed top-10 left-10 text-4xl float-emoji opacity-30 pointer-events-none" style="animation-delay: 0s;">💖</div>
+    <div class="fixed bottom-32 right-10 text-5xl float-emoji opacity-30 pointer-events-none" style="animation-delay: 1.5s;">💍</div>
+    <div class="fixed top-1/2 left-4 text-3xl float-emoji opacity-30 pointer-events-none" style="animation-delay: 0.5s;">✨</div>
+    <div class="fixed top-20 right-20 text-4xl float-emoji opacity-30 pointer-events-none" style="animation-delay: 2s;">🥂</div>
+
+    <div class="fixed top-4 right-4 z-[60] safe-top">
+        <button onclick="toggleMusic()" class="bg-white/90 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-lg border-2 border-genz-purple flex items-center gap-2 group hover:scale-105 transition">
+            <div class="w-2 h-2 md:w-3 md:h-3 bg-green-400 rounded-full animate-pulse"></div>
+            <span class="text-[10px] md:text-xs font-bold font-bold text-genz-purple uppercase tracking-wider">Bật Vibe</span>
+            <i id="music-icon" class="fas fa-play text-genz-pink text-xs"></i>
+        </button>
+        <audio id="bg-music" loop>
+            <source src="Thousand_years.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-[50] p-4 pb-6 md:pb-6">
+        <div class="glass-morphism rounded-2xl p-2 flex items-center justify-between shadow-2xl max-w-2xl mx-auto">
+            <button onclick="prevSlide()" id="btn-prev" class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-white/50 transition text-gray-500 disabled:opacity-30">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="flex flex-col items-center">
+                <div class="flex gap-1.5 mb-1" id="progress-dots"></div>
+                <span class="text-[9px] font-black uppercase tracking-[0.2em] text-genz-purple truncate max-w-[120px]" id="slide-title">INTRO</span>
+            </div>
+
+            <button onclick="nextSlide()" id="btn-next" class="px-4 py-2 bg-gradient-to-r from-genz-pink to-genz-purple text-white rounded-xl font-bold text-xs md:text-sm hover:shadow-lg hover:shadow-genz-pink/40 transition transform hover:-translate-y-0.5 flex items-center gap-2 whitespace-nowrap">
+                <span>NEXT</span> <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="slide-container center-content active p-4" data-title="BREAKING NEWS">
+        <div class="glass-morphism rounded-[2rem] p-6 md:p-8 max-w-md w-full text-center relative overflow-hidden mx-auto mt-4">
+            <div class="absolute -top-10 -left-10 w-24 h-24 md:w-32 md:h-32 bg-genz-yellow rounded-full blur-3xl opacity-60"></div>
+            <div class="absolute -bottom-10 -right-10 w-24 h-24 md:w-32 md:h-32 bg-genz-blue rounded-full blur-3xl opacity-60"></div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-3 md:p-4 shadow-sm mb-6 md:mb-8 text-left flex gap-3 items-start notification-pop border border-gray-100 mx-auto max-w-[90%]">
+                <div class="w-8 h-8 md:w-10 md:h-10 shrink-0 bg-gradient-to-br from-genz-pink to-genz-purple rounded-xl flex items-center justify-center text-white text-sm md:text-lg">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center w-full">
+                        <span class="font-bold text-xs text-gray-800">Cục Tình Yêu</span>
+                        <span class="text-[10px] text-gray-400">vừa xong</span>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-600 font-medium mt-0.5 leading-tight">Duy Tùng & Nhật Vịnh đã cập nhật trạng thái: <span class="text-genz-pink font-bold">Locked In 💍</span></p>
+                </div>
+            </div>
+
+            <div class="relative z-10">
+                <span class="bg-black text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 inline-block">Official Announcement</span>
+                <h1 class="font-fun text-4xl xs:text-5xl md:text-6xl text-gray-800 leading-tight mb-2">
+                    We Are <br><span class="gradient-text">Getting Married!</span>
+                </h1>
+                <p class="font-bold text-gray-500 mb-6 text-xs md:text-sm">Cuối cùng thì OTP cũng về chung một nhà!</p>
+
+                <div class="flex justify-center items-center gap-4 bg-white/50 rounded-2xl p-3 md:p-4 border border-white/50 w-fit mx-auto">
+                    <div class="text-right border-r-2 border-gray-300 pr-4">
+                        <p class="text-[10px] md:text-xs font-bold text-gray-400 uppercase">Tháng 12</p>
+                        <p class="text-3xl md:text-4xl font-bold text-genz-purple">28</p>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-[10px] md:text-xs font-bold text-gray-400 uppercase">Năm 2025</p>
+                        <p class="text-lg md:text-xl font-bold text-gray-700">Chủ Nhật</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-center gap-2 md:gap-4">
+                    <div class="text-center min-w-[50px]">
+                        <span id="c-days" class="font-black text-lg md:text-xl text-gray-800">00</span>
+                        <p class="text-[8px] uppercase font-bold text-gray-400">Ngày</p>
+                    </div>
+                    <span class="text-xl font-black text-gray-300">:</span>
+                    <div class="text-center min-w-[50px]">
+                        <span id="c-hours" class="font-black text-lg md:text-xl text-gray-800">00</span>
+                        <p class="text-[8px] uppercase font-bold text-gray-400">Giờ</p>
+                    </div>
+                    <span class="text-xl font-black text-gray-300">:</span>
+                    <div class="text-center min-w-[50px]">
+                        <span id="c-mins" class="font-black text-lg md:text-xl text-gray-800">00</span>
+                        <p class="text-[8px] uppercase font-bold text-gray-400">Phút</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container p-4" data-title="PLAYER PROFILE">
+        <div class="max-w-4xl w-full mx-auto mt-4 md:mt-10">
+            <div class="text-center mb-6">
+                <span class="text-4xl">🎮</span>
+                <h2 class="font-bold text-xl md:text-2xl mt-2 text-white drop-shadow-md">CHOOSE YOUR PLAYER</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-4">
+                <div class="glass-morphism rounded-3xl p-5 md:p-6 relative group border-2 border-transparent hover:border-blue-400 transition">
+                    <div class="absolute top-4 right-4 bg-blue-100 text-blue-600 px-2 py-1 rounded-lg text-[10px] font-bold">LV. 28</div>
+                    <div class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-blue-400 to-cyan-300 mb-4">
+                        <img src="DSC16.jpg" class="w-full h-full object-cover rounded-full border-4 border-white">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-xl md:text-2xl font-black text-gray-800">DUY TÙNG</h3>
+                        <p class="text-blue-500 font-bold text-xs tracking-widest mb-4">THE HUSBAND</p>
+                        
+                        <div class="space-y-2 text-xs md:text-sm bg-white/50 rounded-xl p-3 text-left">
+                            <div class="flex justify-between"><span class="font-bold text-gray-500">Skill:</span> <span class="font-bold truncate ml-2">Engineering</span></div>
+                            <div class="flex justify-between"><span class="font-bold text-gray-500">Sở thích:</span> <span class="truncate ml-2">Gánh team, Leo rank</span></div>
+                            <div class="flex justify-between"><span class="font-bold text-gray-500">Weakness:</span> <span class="truncate ml-2">Sợ Nhật Vịnh nhất</span></div>
+                            <div class="mt-2 w-full bg-gray-200 rounded-full h-1.5 md:h-2">
+                                <div class="bg-blue-500 h-1.5 md:h-2 rounded-full" style="width: 90%"></div>
+                            </div>
+                            <div class="text-[9px] text-right text-gray-400 font-bold">Love Gauge 99%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-morphism rounded-3xl p-5 md:p-6 relative group border-2 border-transparent hover:border-pink-400 transition">
+                    <div class="absolute top-4 right-4 bg-pink-100 text-pink-600 px-2 py-1 rounded-lg text-[10px] font-bold">LV. 25</div>
+                    <div class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-pink-400 to-purple-300 mb-4">
+                        <img src="DSC15.jpg" class="w-full h-full object-cover rounded-full border-4 border-white">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-xl md:text-2xl font-black text-gray-800">NHẬT VỊNH</h3>
+                        <p class="text-pink-500 font-bold text-xs tracking-widest mb-4">NÓC NHÀ</p>
+                        
+                        <div class="space-y-2 text-xs md:text-sm bg-white/50 rounded-xl p-3 text-left">
+                            <div class="flex justify-between"><span class="font-bold text-gray-500">Skill:</span> <span class="font-bold truncate ml-2">Reading, Healing</span></div>
+                            <div class="flex justify-between"><span class="font-bold text-gray-500">Sở thích:</span> <span class="truncate ml-2">Milk Tea, Travel</span></div>
+                            <div class="flex justify-between"><span class="font-bold text-gray-500">Ultimate:</span> <span class="truncate ml-2">Dỗi (Damage 9999)</span></div>
+                            <div class="mt-2 w-full bg-gray-200 rounded-full h-1.5 md:h-2">
+                                <div class="bg-pink-500 h-1.5 md:h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <div class="text-[9px] text-right text-gray-400 font-bold">Love Gauge 100%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container center-content p-4" data-title="VIP ACCESS">
+        <div class="glass-morphism rounded-[2rem] w-full max-w-md mx-auto mt-4 md:mt-10 relative overflow-hidden">
+            <div class="bg-white rounded-2xl m-4 shadow-lg overflow-hidden relative">
+                <div class="bg-gradient-to-r from-genz-pink to-genz-purple p-4 text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-white/20 rounded-full blur-xl -mr-10 -mt-10"></div>
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <span class="text-[10px] font-bold tracking-widest uppercase opacity-80">BOARDING PASS</span>
+                            <h2 class="font-black text-2xl uppercase italic">Chuyến Tàu <br>Hạnh Phúc</h2>
+                        </div>
+                        <i class="fas fa-plane-departure text-3xl opacity-50 rotate-45"></i>
+                    </div>
+                </div>
+
+                <div class="p-5 relative">
+                    <div class="absolute top-0 left-0 transform -translate-y-1/2 w-full flex justify-between px-2">
+                        <div class="w-4 h-4 bg-gray-200 rounded-full"></div> 
+                        <div class="border-t-2 border-dashed border-gray-300 w-full mx-2 mt-2"></div>
+                        <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
+                    </div>
+
+                    <div class="space-y-4 mt-2">
+                        <div class="text-center">
+                            <p class="text-xs text-gray-400 font-bold uppercase mb-1 tracking-widest">Trân trọng kính mời</p>
+                            <div class="text-xl font-black text-gray-800 font-fun border-b-2 border-genz-yellow inline-block pb-1">
+                                Những người  Của Tụi Mình
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase">DATE</p>
+                                <p class="font-bold text-gray-800">28 DEC 2025</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-400 font-bold uppercase">TIME</p>
+                                <p class="font-bold text-gray-800">09:00 AM</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase">GATE</p>
+                                <p class="font-bold text-genz-pink">LOVE-01</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-400 font-bold uppercase">SEAT</p>
+                                <p class="font-bold text-genz-purple">SUPER VIP</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-3 text-center border border-gray-100">
+                            <p class="text-xs text-gray-500 italic">"Sự hiện diện của bạn là visual đỉnh chóp cho bữa tiệc này! Đừng quên mang theo một tâm hồn đẹp."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-100 p-3 flex flex-col items-center justify-center border-t border-dashed border-gray-300">
+                    <div class="h-8 w-2/3 bg-gray-800 flex items-center justify-center gap-1 overflow-hidden px-2">
+                        <div class="w-0.5 h-full bg-white"></div><div class="w-1 h-full bg-white"></div><div class="w-0.5 h-full bg-white"></div><div class="w-2 h-full bg-white"></div>
+                        <div class="w-1 h-full bg-white"></div><div class="w-3 h-full bg-white"></div><div class="w-0.5 h-full bg-white"></div>
+                    </div>
+                    <p class="text-[8px] font-mono text-gray-400 mt-1 tracking-[0.2em]">TUNG&VINH2025</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container center-content p-4" data-title="LOVE MAP">
+        <div class="glass-morphism rounded-[2rem] w-full max-w-2xl flex flex-col p-4 md:p-6 h-[75vh] md:max-h-[80vh] relative overflow-hidden">
+            
+            <div class="flex items-center justify-between mb-4 border-b border-gray-200 pb-3 shrink-0 z-20 relative">
+                <h2 class="font-black text-lg md:text-2xl gradient-text uppercase italic">Bản Đồ Tình Yêu 🗺️</h2>
+                <span class="bg-black text-white px-2 py-1 rounded text-[9px] md:text-[10px] font-bold">LEVEL UP</span>
+            </div>
+
+            <div class="overflow-y-auto pr-2 custom-scrollbar relative flex-1">
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full roadmap-line z-0 top-0"></div>
+
+                <div class="relative z-10 flex items-center justify-between mb-10 w-full group">
+                    <div class="w-[45%] bg-white p-3 rounded-xl shadow-lg border-b-4 border-blue-200 text-right transform group-hover:-translate-x-1 transition duration-300">
+                        <span class="text-[9px] font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full inline-block mb-1">LEVEL 1 - 2020</span>
+                        <h4 class="font-bold text-gray-800 text-xs md:text-sm">Start Game 🎮</h4>
+                        <p class="text-[10px] text-gray-500 mt-1 leading-tight">Lần đầu va vào nhau. Tưởng không hợp mà hợp không tưởng.</p>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white text-xs z-10">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="w-[45%]"></div>
+                </div>
+
+                <div class="relative z-10 flex items-center justify-between mb-10 w-full group">
+                    <div class="w-[45%]"></div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-genz-pink rounded-full border-4 border-white shadow flex items-center justify-center text-white text-xs z-10">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="w-[45%] bg-white p-3 rounded-xl shadow-lg border-b-4 border-pink-200 text-left transform group-hover:translate-x-1 transition duration-300">
+                        <span class="text-[9px] font-bold text-pink-500 bg-pink-50 px-2 py-0.5 rounded-full inline-block mb-1">LEVEL 5 - 2022</span>
+                        <h4 class="font-bold text-gray-800 text-xs md:text-sm">Co-op Mode 🤝</h4>
+                        <p class="text-[10px] text-gray-500 mt-1 leading-tight">Chính thức công khai. Cùng nhau leo rank cuộc đời.</p>
+                    </div>
+                </div>
+
+                <div class="relative z-10 flex flex-col items-center w-full mt-4 pb-4">
+                    <div class="w-12 h-12 bg-yellow-400 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white text-lg z-20 animate-bounce">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="mt-3 bg-gradient-to-r from-yellow-100 to-orange-100 p-4 rounded-xl shadow-lg border-2 border-yellow-300 text-center max-w-[80%]">
+                        <span class="text-[10px] font-bold text-yellow-700 bg-yellow-200 px-2 py-0.5 rounded-full inline-block mb-1">FINAL BOSS - 28/12/2025</span>
+                        <h4 class="font-black text-gray-800 text-sm md:text-lg uppercase">WEDDING DAY 💍</h4>
+                        <p class="text-xs text-gray-600 mt-1">Chiến thắng viên mãn! Mở khoá map mới: "Gia Đình Hạnh Phúc".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container p-4" data-title="QUEST LOG">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl w-full mt-4 md:mt-10 h-full overflow-y-auto pb-24">
+            
+            <div class="glass-morphism p-5 rounded-3xl h-fit">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fas fa-map-pin text-red-500 text-lg md:text-xl animate-bounce"></i>
+                    <h2 class="font-black text-lg md:text-xl text-gray-800">TOẠ ĐỘ CHECK-IN</h2>
+                </div>
+                <div class="w-full h-40 md:h-48 bg-gray-200 rounded-2xl overflow-hidden mb-4 border-2 border-white">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d705.9284661253887!2d108.21976990714882!3d13.169799390879104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x316e0df4bafa36df%3A0x2c95ebe3fc917e03!2zUXXDoW4gVsO1bmcgxJDhu5NpIFRow7RuZw!5e0!3m2!1svi!2s!4v1766151875035!5m2!1svi!2s" 
+                        class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="flex justify-between items-center bg-white/50 p-3 rounded-xl">
+                    <div class="pr-2">
+                        <p class="font-bold text-sm truncate">Tư gia Nhà trai</p>
+                        <p class="text-[10px] md:text-xs text-gray-500 truncate">Thôn 4 - Eakhal - Đắk Lắk</p>
+                    </div>
+                    <a href="https://maps.app.goo.gl/oHRrDow7Cok6zKma8" target="_blank" class="shrink-0 bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs hover:bg-black transition"><i class="fas fa-location-arrow"></i></a>
+                </div>
+            </div>
+
+            <div class="glass-morphism p-5 rounded-3xl flex flex-col">
+                <h2 class="font-black text-lg md:text-xl text-gray-800 mb-6 flex items-center gap-2">
+                    <i class="fas fa-tasks text-genz-purple"></i> NHIỆM VỤ CHÍNH
+                </h2>
+                
+                <div class="relative pl-6 ml-2 border-l-2 border-dashed border-genz-purple/50 space-y-6 flex-1">
+                    
+                    <div class="relative group">
+                        <div class="absolute -left-[31px] top-0 w-8 h-8 bg-white border-2 border-genz-pink rounded-full flex items-center justify-center text-xs shadow-md z-10 group-hover:scale-110 transition">
+                            💍
+                        </div>
+                        <div class="bg-white/60 p-3 rounded-xl shadow-sm border border-white group-hover:bg-white group-hover:scale-[1.02] transition duration-300">
+                             <div class="flex justify-between items-start mb-1">
+                                <h4 class="font-bold text-sm text-gray-800">Lễ Thành Hôn</h4>
+                                <span class="bg-genz-pink text-white text-[9px] font-bold px-2 py-0.5 rounded-full">09:00</span>
+                             </div>
+                             <p class="text-[10px] text-gray-500">Khoảnh khắc 10/10. Nghi thức trao nhẫn và thề nguyền.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <div class="absolute -left-[31px] top-0 w-8 h-8 bg-white border-2 border-genz-blue rounded-full flex items-center justify-center text-xs shadow-md z-10 group-hover:scale-110 transition">
+                            📸
+                        </div>
+                        <div class="bg-white/60 p-3 rounded-xl shadow-sm border border-white group-hover:bg-white group-hover:scale-[1.02] transition duration-300">
+                             <div class="flex justify-between items-start mb-1">
+                                <h4 class="font-bold text-sm text-gray-800">Check-in & Sống ảo</h4>
+                                <span class="bg-genz-blue text-white text-[9px] font-bold px-2 py-0.5 rounded-full">10:00</span>
+                             </div>
+                             <p class="text-[10px] text-gray-500">Khách mời lên đồ. Chụp 7749 tấm ảnh kỷ niệm.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <div class="absolute -left-[31px] top-0 w-8 h-8 bg-white border-2 border-yellow-400 rounded-full flex items-center justify-center text-xs shadow-md z-10 group-hover:scale-110 transition">
+                            🍗
+                        </div>
+                        <div class="bg-white/60 p-3 rounded-xl shadow-sm border border-white group-hover:bg-white group-hover:scale-[1.02] transition duration-300">
+                             <div class="flex justify-between items-start mb-1">
+                                <h4 class="font-bold text-sm text-gray-800">Mukbang Time</h4>
+                                <span class="bg-yellow-400 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">11:00</span>
+                             </div>
+                             <p class="text-[10px] text-gray-500">Nhập tiệc! Nạp năng lượng để chuẩn bị quẩy.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <div class="absolute -left-[31px] top-0 w-8 h-8 bg-white border-2 border-purple-500 rounded-full flex items-center justify-center text-xs shadow-md z-10 group-hover:scale-110 transition">
+                            💃
+                        </div>
+                        <div class="bg-white/60 p-3 rounded-xl shadow-sm border border-white group-hover:bg-white group-hover:scale-[1.02] transition duration-300">
+                             <div class="flex justify-between items-start mb-1">
+                                <h4 class="font-bold text-sm text-gray-800">Party Hard</h4>
+                                <span class="bg-purple-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">12:00</span>
+                             </div>
+                             <p class="text-[10px] text-gray-500">Nhạc lên! "Quẩy" quên lối về. Không say không về.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-4 border-t border-gray-200 pt-3">
+                    <div class="flex justify-between items-center mb-2">
+                         <h4 class="font-black text-[10px] md:text-xs text-gray-800">SKIN MẶC ĐỊNH (Dresscode)</h4>
+                         <span class="text-[8px] bg-gray-200 px-2 py-0.5 rounded text-gray-600">Tùy chọn</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="flex-1 h-6 rounded bg-[#fce7f3] border border-black/10"></div>
+                        <div class="flex-1 h-6 rounded bg-[#fef3c7] border border-black/10"></div>
+                        <div class="flex-1 h-6 rounded bg-[#e0f2fe] border border-black/10"></div>
+                        <div class="flex-1 h-6 rounded bg-white border border-black/10"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container p-4" data-title="VISUAL 100 ĐIỂM">
+        <div class="glass-morphism rounded-[2rem] max-w-4xl w-full p-4 md:p-6 mt-4 md:mt-10">
+            <div class="flex items-center justify-between mb-4 md:mb-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-purple-600 p-0.5">
+                        <div class="w-full h-full bg-white rounded-full p-0.5">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover rounded-full">
+                        </div>
+                    </div>
+                    <span class="font-bold text-sm">tung_vinh_wedding</span>
+                </div>
+                <i class="fas fa-ellipsis-h text-gray-400"></i>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-1">
+                <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04211.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold gap-1"><i class="fas fa-heart"></i> 11k</div>
+                </div>
+                 <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04070.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                 <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04221.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                 <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04425.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                 <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04281.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                 <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04211.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                </div>
+                <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC10.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold gap-1"><i class="fas fa-heart"></i> 11k</div>
+                </div>
+                <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04070.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold gap-1"><i class="fas fa-heart"></i> 11k</div>
+                </div>
+                <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC11.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold gap-1"><i class="fas fa-heart"></i> 11k</div>
+                </div>
+                <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC05.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold gap-1"><i class="fas fa-heart"></i> 11k</div>
+                </div>
+                <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC02.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold gap-1"><i class="fas fa-heart"></i> 11k</div>
+                </div>
+                <div class="aspect-square relative group overflow-hidden cursor-pointer" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="DSC04444.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold gap-1"><i class="fas fa-heart"></i> 11k</div>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex gap-4 text-xl md:text-2xl">
+                <i class="far fa-heart text-red-500 cursor-pointer hover:scale-125 transition"></i>
+                <i class="far fa-comment text-gray-700 cursor-pointer"></i>
+                <i class="far fa-paper-plane text-gray-700 cursor-pointer"></i>
+            </div>
+            <p class="font-bold text-xs md:text-sm mt-2">2,713 lượt thích</p>
+            <p class="text-xs md:text-sm"><span class="font-bold">tung_vinh_wedding</span> Visual này không cần filter! ✨ #wedding #genz</p>
+        </div>
+    </div>
+
+    <div class="slide-container center-content p-4" data-title="TING TING & SAY HI">
+        <div class="glass-morphism rounded-[2rem] p-6 md:p-8 max-w-md w-full relative">
+            
+            <div class="flex bg-gray-100 rounded-xl p-1 mb-6">
+                <button onclick="switchTab('rsvp')" id="tab-rsvp" class="flex-1 py-2 rounded-lg text-xs md:text-sm font-bold transition shadow-sm bg-white text-gray-800">SAY HI 👋</button>
+                <button onclick="switchTab('gift')" id="tab-gift" class="flex-1 py-2 rounded-lg text-xs md:text-sm font-bold transition text-gray-400 hover:text-gray-600">CUNG HỶ 💸</button>
+            </div>
+
+            <div id="content-rsvp">
+                <h2 class="font-black text-xl md:text-2xl text-center mb-1">Check-in Online</h2>
+                <p class="text-center text-[10px] md:text-xs text-gray-500 mb-6">Điểm danh để tụi mình xếp chỗ "ngon" nhé!</p>
+                
+                <form id="rsvp-form" class="space-y-3">
+                    <input type="text" name="entry.1256911765" required
+                        placeholder="Tên của bạn (hoặc biệt danh)" 
+                        class="w-full bg-white/50 border-0 rounded-xl px-4 py-3 text-xs md:text-sm focus:ring-2 focus:ring-genz-purple outline-none placeholder-gray-400">
+                    
+                    <input type="text" name="entry.1339637933" required
+                        placeholder="SĐT (Để gửi ảnh HD)" 
+                        class="w-full bg-white/50 border-0 rounded-xl px-4 py-3 text-xs md:text-sm focus:ring-2 focus:ring-genz-purple outline-none placeholder-gray-400">
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="bg-white/50 p-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer border-2 border-transparent hover:border-green-400 transition has-[:checked]:border-green-400 has-[:checked]:bg-green-50">
+                            <input type="radio" name="entry.1113483197" value="Có" class="accent-green-500 w-4 h-4" checked> 
+                            <span class="text-xs md:text-sm font-bold">Gét gô! 🚀</span>
+                        </label>
+                        <label class="bg-white/50 p-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer border-2 border-transparent hover:border-red-400 transition has-[:checked]:border-red-400 has-[:checked]:bg-red-50">
+                            <input type="radio" name="entry.1113483197" value="Không" class="accent-red-500 w-4 h-4"> 
+                            <span class="text-xs md:text-sm font-bold">Bận mất rùi 🥺</span>
+                        </label>
+                    </div>
+
+                    <textarea name="entry.377216914" rows="2" 
+                        placeholder="Lời chúc bá đạo nhất..." 
+                        class="w-full bg-white/50 border-0 rounded-xl px-4 py-3 text-xs md:text-sm focus:ring-2 focus:ring-genz-purple outline-none placeholder-gray-400"></textarea>
+                    
+                    <button type="submit" id="btn-submit"
+                        class="w-full bg-black text-white py-3 md:py-4 rounded-xl font-black uppercase tracking-widest hover:bg-gray-800 transition transform hover:scale-[1.02] shadow-xl text-xs md:text-sm flex justify-center items-center gap-2">
+                        <span>Gửi Tín Hiệu 📡</span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="content-gift" class="hidden text-center">
+                <h2 class="font-black text-xl md:text-2xl mb-1">Hộp mừng cưới</h2>
+                <p class="text-[10px] md:text-xs text-gray-500 mb-6">Lời mừng nhỏ - Yêu thương lớn</p>
+                
+                <div class="bg-white p-4 rounded-2xl shadow-sm border-2 border-dashed border-gray-300 relative group max-w-xs mx-auto">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-300 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm whitespace-nowrap">RECOMMENDED</div>
+                    <img src="DSCQR2.jpg" class="w-28 h-28 md:w-32 md:h-32 mx-auto mb-3 mix-blend-multiply">
+                    <p class="font-bold text-base md:text-lg">Duy Tùng</p>
+                    <div class="flex items-center justify-center gap-2 bg-gray-100 rounded-lg p-2 mt-2 cursor-pointer hover:bg-gray-200 transition" onclick="copyToClipboard('bank-groom')">
+                        <span class="font-mono text-xs md:text-sm font-bold" id="bank-groom">0394474777</span>
+                        <i class="far fa-copy text-gray-500"></i>
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-1">Shinhan Bank</p>
+                </div>
+                
+                <p class="text-[10px] text-gray-400 mt-4 italic">Trân trọng đón nhận mọi yêu thường, tình cảm của mọi người</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="thankYouModal" class="fixed inset-0 z-[80] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full text-center relative z-10 animate-bounce">
+            <div class="text-4xl md:text-5xl mb-4">👽</div>
+            <h3 class="font-black text-xl md:text-2xl text-gray-800 mb-2">Đã nhận tín hiệu!</h3>
+            <p class="text-gray-500 mb-6 text-xs md:text-sm">Vũ trụ đã ghi nhận sự có mặt của bạn. Hẹn gặp lại nhé!</p>
+            <button onclick="closeModal()" class="w-full py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 text-sm">OKELA 👌</button>
+        </div>
+    </div>
+
+     <div id="lightbox" class="fixed inset-0 z-[70] hidden bg-black/95 flex items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" class="max-w-full max-h-[80dvh] rounded-lg shadow-2xl transform scale-95 transition duration-300 border-2 border-white object-contain">
+    </div>
+
+    <script>
+        // --- LOGIC SLIDER ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide-container');
+        const dotsContainer = document.getElementById('progress-dots');
+        const titleContainer = document.getElementById('slide-title');
+
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.className = `h-1 rounded-full transition-all duration-300 ${idx === 0 ? 'bg-gray-800 w-4 md:w-6' : 'bg-gray-300 w-1.5 md:w-2'}`;
+            dotsContainer.appendChild(dot);
+        });
+        const dots = dotsContainer.querySelectorAll('div');
+
+        function updateUI() {
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === currentSlide);
+                dots[i].className = `h-1 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-gray-800 w-4 md:w-6' : 'bg-gray-300 w-1.5 md:w-2'}`;
+            });
+            titleContainer.innerText = slides[currentSlide].getAttribute('data-title');
+            slides[currentSlide].scrollTop = 0;
+
+            document.getElementById('btn-prev').disabled = currentSlide === 0;
+            const nextBtn = document.getElementById('btn-next');
+            if(currentSlide === slides.length - 1) {
+                nextBtn.innerHTML = '<span>XONG</span> <i class="fas fa-check"></i>';
+                nextBtn.className = "px-4 py-2 bg-black text-white rounded-xl font-bold text-xs md:text-sm hover:bg-gray-800 transition transform hover:-translate-y-0.5 flex items-center gap-2";
+            } else {
+                nextBtn.innerHTML = '<span>NEXT</span> <i class="fas fa-arrow-right"></i>';
+                nextBtn.className = "px-4 py-2 bg-gradient-to-r from-genz-pink to-genz-purple text-white rounded-xl font-bold text-xs md:text-sm hover:shadow-lg hover:shadow-genz-pink/40 transition transform hover:-translate-y-0.5 flex items-center gap-2 whitespace-nowrap";
+            }
+        }
+
+        function nextSlide() { if(currentSlide < slides.length - 1) { currentSlide++; updateUI(); } }
+        function prevSlide() { if(currentSlide > 0) { currentSlide--; updateUI(); } }
+
+        function switchTab(tab) {
+            const btnRsvp = document.getElementById('tab-rsvp');
+            const btnGift = document.getElementById('tab-gift');
+            const contentRsvp = document.getElementById('content-rsvp');
+            const contentGift = document.getElementById('content-gift');
+
+            if(tab === 'rsvp') {
+                btnRsvp.classList.replace('text-gray-400', 'text-gray-800');
+                btnRsvp.classList.add('bg-white', 'shadow-sm');
+                btnGift.classList.remove('bg-white', 'shadow-sm', 'text-gray-800');
+                btnGift.classList.add('text-gray-400');
+                contentRsvp.classList.remove('hidden');
+                contentGift.classList.add('hidden');
+            } else {
+                btnGift.classList.replace('text-gray-400', 'text-gray-800');
+                btnGift.classList.add('bg-white', 'shadow-sm');
+                btnRsvp.classList.remove('bg-white', 'shadow-sm', 'text-gray-800');
+                btnRsvp.classList.add('text-gray-400');
+                contentGift.classList.remove('hidden');
+                contentRsvp.classList.add('hidden');
+            }
+        }
+
+        function copyToClipboard(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text);
+            const originalText = document.getElementById(id).innerText;
+            document.getElementById(id).innerText = "Đã Copy!";
+            setTimeout(() => document.getElementById(id).innerText = originalText, 1500);
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById("bg-music");
+            const icon = document.getElementById("music-icon");
+            if (audio.paused) { audio.play(); icon.className = "fas fa-pause text-genz-pink text-xs"; }
+            else { audio.pause(); icon.className = "fas fa-play text-genz-pink text-xs"; }
+        }
+
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            lb.classList.remove('hidden');
+            setTimeout(() => lb.classList.add('open'), 10);
+        }
+        function closeLightbox() {
+            const lb = document.getElementById('lightbox');
+            lb.classList.remove('open');
+            setTimeout(() => lb.classList.add('hidden'), 300);
+        }
+
+        function showThankYou() { document.getElementById('thankYouModal').classList.remove('hidden'); document.getElementById('thankYouModal').classList.add('flex'); }
+        function closeModal() { document.getElementById('thankYouModal').classList.add('hidden'); document.getElementById('thankYouModal').classList.remove('flex'); }
+
+        // --- GOOGLE FORM SUBMISSION (QUAN TRỌNG) ---
+        const rsvpForm = document.getElementById('rsvp-form');
+        const btnSubmit = document.getElementById('btn-submit');
+        
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // THAY URL CỦA BẠN VÀO DÒNG DƯỚI ĐÂY (Lấy link formResponse)
+        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdesmhpzhvaggwQV_-hK-0t2UvByTG7jlRrxuyJlxfIJEK0EQ/formResponse'; 
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        if(rsvpForm) {
+            rsvpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const originalBtnContent = btnSubmit.innerHTML;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+                btnSubmit.disabled = true;
+
+                const formData = new FormData(rsvpForm);
+                
+                fetch(GOOGLE_FORM_URL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors' 
+                }).then(() => {
+                    showThankYou();
+                    rsvpForm.reset();
+                }).catch((err) => {
+                    alert('Có lỗi xảy ra, thử lại sau nha! 😭');
+                    console.error(err);
+                }).finally(() => {
+                    btnSubmit.innerHTML = originalBtnContent;
+                    btnSubmit.disabled = false;
+                });
+            });
+        }
+
+        // Countdown
+        const weddingDate = new Date("December 28, 2025 9:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const d = weddingDate - now;
+            document.getElementById("c-days").innerText = Math.floor(d / (1000 * 60 * 60 * 24));
+            document.getElementById("c-hours").innerText = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("c-mins").innerText = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+    </script>
+</body>
+</html>
